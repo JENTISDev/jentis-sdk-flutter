@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "jentis-sdk-ios-releases",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JENTISDev/jentis-sdk-ios-releases.git",
+      "state" : {
+        "revision" : "9bf084349e2fdc061db688e4228dc19e448fb8e0",
+        "version" : "1.0.5"
+      }
+    }
+  ],
+  "version" : 2
+}

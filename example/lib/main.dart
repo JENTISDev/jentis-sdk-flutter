@@ -1,61 +1,205 @@
+// Copyright © 2025 JENTIS GmbH
+
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jentis_flutter/jentis_flutter.dart';
+import 'package:jentis_flutter_example/providers/settings.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'generated/l10n.dart';
+import 'providers/debug.dart';
+import 'providers/jentis.dart';
+import 'providers/package_info.dart';
+import 'providers/shared_preferences.dart';
+import 'repositories/shared_preferences_repository.dart';
+import 'screens/debug_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/tracking_screen.dart';
+import 'widgets/consent_settings.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final packageInfo = await PackageInfo.fromPlatform();
+
+  // GoRouter configuration
+  final router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder:
+            (context, state) => MyApp(
+              version: packageInfo.version,
+              buildNumber: packageInfo.buildNumber,
+            ),
+        routes: [
+          GoRoute(
+            path: '/${SettingsScreen.path}',
+            builder: (context, state) {
+              return SettingsScreen();
+            },
+          ),
+          GoRoute(
+            path: '/${TrackingScreen.path}',
+            builder: (context, state) {
+              return TrackingScreen();
+            },
+          ),
+          GoRoute(
+            path: '/${DebugScreen.path}',
+            builder: (context, state) {
+              return DebugScreen();
+            },
+          ),
+        ],
+      ),
+    ],
+  );
+
+  final sharedPreferences = await SharedPreferencesWithCache.create(
+    cacheOptions: const SharedPreferencesWithCacheOptions(),
+  );
+  await sharedPreferences.reloadCache();
+  final sharedPreferencesRepository = SharedPreferencesRepository(
+    sharedPreferences,
+  );
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        packageInfoProvider.overrideWithValue(packageInfo),
+        sharedPreferencesProvider.overrideWithValue(
+          sharedPreferencesRepository,
+        ),
+      ],
+      child: MaterialApp.router(
+        routerConfig: router,
+        localizationsDelegates: const [
+          Strings.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: Strings.delegate.supportedLocales,
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({super.key, required this.version, required this.buildNumber});
+
+  final String version;
+  final String buildNumber;
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _jentisFlutterPlugin = JentisFlutter();
+class _MyAppState extends ConsumerState<MyApp> {
+  bool _showConsentSettings = false;
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _jentisFlutterPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Initialize Jentis SDK
+      final settings = ref.read(settingsProvider);
+      ref
+          .read(jentisProvider)
+          .initialize(
+            TrackConfigData(
+              trackDomain: settings.trackDomain,
+              container: settings.container,
+              environment: settings.environment,
+              version: settings.version,
+              debugCode: settings.debugCode,
+              authorizationToken: settings.authorizationToken,
+              sessionTimeoutInSeconds: settings.sessionTimeoutInSeconds,
+              customProtocol: settings.customProtocol,
+              enableOfflineTracking: settings.enableOfflineTracking,
+              offlineTimeout: settings.offlineTimeout,
+            ),
+          );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+    // Providers that are used globally
+    ref.watch(settingsProvider);
+    ref.watch(jentisProvider);
+    ref.watch(debugProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(Strings.of(context).appBarTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert),
+            onPressed:
+                () => GoRouter.of(context).push('./${SettingsScreen.path}'),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 48.0,
+                  horizontal: 24.0,
+                ),
+                child: SvgPicture.asset(
+                  'assets/logo.svg',
+                  semanticsLabel: Strings.of(context).jentis,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _showConsentSettings = !_showConsentSettings;
+                  });
+                },
+                child: Text(Strings.of(context).consents),
+              ),
+              if (_showConsentSettings)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ConsentSettings(),
+                ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed:
+                    () => GoRouter.of(context).push('./${TrackingScreen.path}'),
+                child: Text(Strings.of(context).trackingExamples),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed:
+                    () => GoRouter.of(context).push('./${DebugScreen.path}'),
+                child: Text(Strings.of(context).debugScreen),
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: Text(
+                  Strings.of(
+                    context,
+                  ).version(widget.version, widget.buildNumber),
+                ),
+              ),
+              const SizedBox(height: 48.0),
+            ],
+          ),
         ),
       ),
     );

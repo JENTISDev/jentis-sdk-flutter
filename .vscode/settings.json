@@ -1,0 +1,16 @@
+{
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cSpell.words": [
+    "adwords",
+    "brutto",
+    "Datalayer",
+    "jentis",
+    "okhttp",
+    "riverpod"
+  ],
+  "explorer.fileNesting.patterns": {
+    "*.dart": "${capture}.g.dart, ${capture}.freezed.dart"
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false
+}

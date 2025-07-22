@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="jentis_flutter API docs, for the Dart programming language.">
+  <title>jentis_flutter - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">jentis_flutter package</li>
+  </ol>
+  <div class="self-name">jentis_flutter</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="jentis-flutter-plugin">Jentis Flutter plugin</h1>
+<p>A Flutter plugin for the Jentis SDK.</p>
+<h2 id="example-app-riverpod--freezed">Example App: Riverpod &amp; Freezed</h2>
+<p>The example app uses <a href="https://riverpod.dev/">Riverpod</a> for state management and <a href="https://pub.dev/packages/freezed">Freezed</a> for immutable data classes and union types. <strong>Riverpod is optional</strong> — you can use any state management solution you prefer. These plugins were selected because:</p>
+<ul>
+<li><strong>Riverpod</strong> provides a robust, testable, and scalable way to manage app state, making it easy to share configuration and SDK state across widgets.</li>
+<li><strong>Freezed</strong> simplifies the creation of immutable models and sealed classes, which helps with managing complex data structures like consent states and settings.</li>
+</ul>
+<p>You do not need to use Riverpod or Freezed to integrate the Jentis Flutter plugin; they are used in the example for demonstration and maintainability purposes.</p>
+<p>The included example app demonstrates how to use the Jentis Flutter plugin in practice. It features several screens to help you understand and test the SDK:</p>
+<ul>
+<li>
+<p><strong>Settings Screen</strong>: Configure all options used to initialize the SDK, such as domain, container, environment, and more. This allows you to experiment with different configurations and see their effects immediately.</p>
+</li>
+<li>
+<p><strong>Consents Section</strong>: Change consents for different providers (e.g., GA4, Facebook, AdWords) using a simple UI. This section lets you manage privacy settings and see how consent changes are applied and persisted.</p>
+</li>
+<li>
+<p><strong>Tracking Examples Screen</strong>: Test various tracking events, including PageView, ProductView, AddToCart, and Order events. This screen provides buttons and forms to trigger different event types and see how they are sent to the SDK.</p>
+</li>
+<li>
+<p><strong>Debug Screen</strong>: View the requests made by the native SDK. This screen displays a log of tracking requests, making it easier to debug and verify integration.</p>
+</li>
+</ul>
+<p>Explore the example app to see best practices for integrating and using the Jentis Flutter plugin in your own project.</p>
+<hr>
+<h2 id="installation">Installation</h2>
+<p>Add <code>jentis_flutter</code> to your <code>pubspec.yaml</code>:</p>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  jentis_flutter: &lt;latest_version&gt;
+</code></pre>
+<p>Run <code>flutter pub get</code> to install the package.</p>
+<hr>
+<h2 id="initialization">Initialization</h2>
+<p>Initialize the plugin at application startup to create a new session. Place the initialization in your app's startup logic (e.g., in <code>initState</code> or before your main widget runs):</p>
+<pre class="language-dart"><code class="language-dart">final settings = ...; // Your configuration
+ref.read(jentisProvider).initialize(
+  TrackConfigData(
+    trackDomain: settings.trackDomain,
+    container: settings.container,
+    environment: settings.environment,
+    version: settings.version,
+    debugCode: settings.debugCode,
+    authorizationToken: settings.authorizationToken,
+    sessionTimeoutInSeconds: settings.sessionTimeoutInSeconds,
+    customProtocol: settings.customProtocol,
+    enableOfflineTracking: settings.enableOfflineTracking,
+    offlineTimeout: settings.offlineTimeout,
+  ),
+);
+</code></pre>
+<p><strong>Configuration options:</strong></p>
+<ul>
+<li><code>trackDomain</code></li>
+<li><code>container</code></li>
+<li><code>environment</code> (live or stage)</li>
+<li><code>version</code></li>
+<li><code>debugCode</code></li>
+<li><code>authorizationToken</code></li>
+<li><code>sessionTimeoutInSeconds</code></li>
+<li><code>customProtocol</code> (http/https)</li>
+<li><code>enableOfflineTracking</code></li>
+<li><code>offlineTimeout</code></li>
+</ul>
+<p>More information: <a href="https://docs.jentis.com/documentation/tracking-data-from-the-app-sdk-to-jentis-how-it-wo#AppTracking:GettingStarted-InitializetheJENTISAppSDK">Jentis SDK Initialization</a></p>
+<hr>
+<h2 id="sending-tracking-events">Sending Tracking Events</h2>
+<p>You can send tracking events using the <code>jentisProvider</code>.</p>
+<p><strong>Why are multiple events sent together?</strong></p>
+<p>When you call <code>submit()</code>, all events that have been pushed are logically grouped together in the DataLayer. The SDK automatically adds default properties and applies additional logic as described in the <a href="https://docs.jentis.com/documentation/jentis-app-tracking-how-to-use-app-sdk-data-in-jen#AppTracking:UsingyourappdataintheJENTISPlatform-JENTISSDKdefaultproperties">Jentis documentation</a>. After submission, the DataLayer is reset. This means that events sent together with <code>submit()</code> are processed as a group, not as independent events.</p>
+<p>This grouping ensures that related tracking information (such as product details and action types) is sent together, allowing the Jentis platform to correctly interpret and enrich the data.</p>
+<p>Example:</p>
+<pre class="language-dart"><code class="language-dart">final jentis = ref.read(jentisProvider);
+
+// Optionally add enrichment data
+if (includeEnrichmentData) {
+  jentis.addEnrichment(
+    JentisEnrichment(
+      pluginId: 'productEnrichmentService',
+      arguments: {'productId': 'product_id'},
+      variables: ['enrich_product_name', 'enrich_product_brutto'],
+    ),
+  );
+}
+
+// Push events (e.g., product view)
+jentis.push([
+  JentisEventData(
+    stringAttributes: {
+      'track': 'pageview',
+      'pagetitle': 'Demo-APP Productview',
+    },
+  ),
+  JentisEventData(
+    stringAttributes: {
+      'track': 'product',
+      'type': 'productview',
+      'id': '123',
+      'name': 'Testproduct',
+    },
+    doubleAttributes: {'brutto': 199.99},
+  ),
+  JentisEventData(stringAttributes: {'track': 'productview'}),
+]);
+
+// Submit event with custom initiator if provided
+if (customInitiator != null) {
+  jentis.submit(customInitiator!);
+} else {
+  jentis.submit();
+}
+</code></pre>
+<p>See the example app for more details.</p>
+<hr>
+<h2 id="managing-privacy-settings">Managing Privacy Settings</h2>
+<p>You can change the PrivacySettings of the currently active session:</p>
+<pre class="language-dart"><code class="language-dart">ref.read(consentProvider.notifier).updateConsent(
+  consent.copyWith(value: value ?? JentisConsentValue.deny),
+);
+</code></pre>
+<p>Settings are applied immediately and persisted for later use.</p>
+<hr>
+<h2 id="tracking-in-webviews">Tracking in WebViews</h2>
+<p>Tracking in WebViews is not yet implemented.</p>
+<hr>
+<h2 id="plugin-development">Plugin Development</h2>
+<p>To contribute or extend the plugin:</p>
+<ul>
+<li>
+<p>Enable Swift Package Manager for iOS:</p>
+<pre class="language-sh"><code class="language-sh">flutter config --enable-swift-package-manager
+</code></pre>
+</li>
+<li>
+<p>Code generation:</p>
+<pre class="language-sh"><code class="language-sh">flutter pub run build_runner build --delete-conflicting-outputs
+</code></pre>
+</li>
+<li>
+<p>Generate Pigeon files:</p>
+<pre class="language-sh"><code class="language-sh">dart run pigeon --input ./pigeons/jentis_api.dart
+</code></pre>
+</li>
+</ul>
+<hr>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="jentis_flutter">
+  <span class="name"><a href="jentis_flutter/">jentis_flutter</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li class="self-crumb">jentis_flutter package</li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">jentis_flutter</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="jentis_flutter/">jentis_flutter</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    jentis_flutter
+      0.0.1
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
