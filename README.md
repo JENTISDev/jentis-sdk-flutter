@@ -27,6 +27,8 @@ Explore the example app to see best practices for integrating and using the Jent
 
 ## Installation
 
+Flutter version: 3.32.8
+
 Add `jentis_flutter` to your `pubspec.yaml`:
 
 ```yaml
