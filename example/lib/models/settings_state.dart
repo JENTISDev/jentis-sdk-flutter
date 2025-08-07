@@ -13,10 +13,11 @@ sealed class SettingsState with _$SettingsState {
   const SettingsState._();
 
   const factory SettingsState({
+    String? domain, // The tracked domain (important for web views)
     CustomProtocol? customProtocol,
     required String trackDomain,
     required String container,
-    @Default(false) bool enableDebugging,
+    //@Default(false) bool enableDebugging,
     String? version,
     String? debugCode,
     int? sessionTimeoutInSeconds,

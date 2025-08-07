@@ -36,5 +36,6 @@
   "noRequestsYet": "No requests yet.",
   "restart": "Restart",
   "restartedWithNewConfiguration": "Restarted with new configuration",
-  "eventSent": "Event sent"
+  "eventSent": "Event sent",
+  "webViewExample": "Web-View Example"
 }

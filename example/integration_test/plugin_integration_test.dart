@@ -14,6 +14,7 @@ import 'package:jentis_flutter_example/repositories/shared_preferences_repositor
 import 'package:jentis_flutter_example/screens/debug_screen.dart';
 import 'package:jentis_flutter_example/screens/settings_screen.dart';
 import 'package:jentis_flutter_example/screens/tracking_screen.dart';
+import 'package:jentis_flutter_example/screens/web_view_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,6 +50,12 @@ Future<void> main() async {
             path: '/${DebugScreen.path}',
             builder: (context, state) {
               return DebugScreen();
+            },
+          ),
+          GoRoute(
+            path: '/${WebViewScreen.path}',
+            builder: (context, state) {
+              return WebViewScreen();
             },
           ),
         ],

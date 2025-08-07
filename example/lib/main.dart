@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jentis_flutter/jentis_flutter.dart';
 import 'package:jentis_flutter_example/providers/settings.dart';
@@ -17,9 +16,10 @@ import 'providers/package_info.dart';
 import 'providers/shared_preferences.dart';
 import 'repositories/shared_preferences_repository.dart';
 import 'screens/debug_screen.dart';
+import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/tracking_screen.dart';
-import 'widgets/consent_settings.dart';
+import 'screens/web_view_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +53,12 @@ Future<void> main() async {
             path: '/${DebugScreen.path}',
             builder: (context, state) {
               return DebugScreen();
+            },
+          ),
+          GoRoute(
+            path: '/${WebViewScreen.path}',
+            builder: (context, state) {
+              return WebViewScreen();
             },
           ),
         ],
@@ -101,8 +107,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  bool _showConsentSettings = false;
-
   @override
   void initState() {
     super.initState();
@@ -136,80 +140,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     ref.watch(jentisProvider);
     ref.watch(debugProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Strings.of(context).appBarTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed:
-                () => GoRouter.of(context).push('./${SettingsScreen.path}'),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 48.0,
-                        horizontal: 24.0,
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/logo.svg',
-                        semanticsLabel: Strings.of(context).jentis,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _showConsentSettings = !_showConsentSettings;
-                        });
-                      },
-                      child: Text(Strings.of(context).consents),
-                    ),
-                    if (_showConsentSettings)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ConsentSettings(),
-                      ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed:
-                          () => GoRouter.of(
-                            context,
-                          ).push('./${TrackingScreen.path}'),
-                      child: Text(Strings.of(context).trackingExamples),
-                    ),
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed:
-                          () => GoRouter.of(
-                            context,
-                          ).push('./${DebugScreen.path}'),
-                      child: Text(Strings.of(context).debugScreen),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: Text(
-                Strings.of(context).version(widget.version, widget.buildNumber),
-              ),
-            ),
-            const SizedBox(height: 48.0),
-          ],
-        ),
-      ),
-    );
+    return HomeScreen(version: widget.version, buildNumber: widget.buildNumber);
   }
 }

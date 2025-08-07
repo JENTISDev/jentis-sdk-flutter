@@ -1,53 +1,51 @@
 // Copyright © 2025 JENTIS GmbH
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'custom_protocol.dart';
 import 'jentis_environment.dart';
+
+part 'track_config_data.freezed.dart';
+part 'track_config_data.g.dart';
 
 /// Model representing the configuration options for initializing the Jentis
 /// SDK. Pass an instance of this class to configure tracking behavior and
 /// session options.
-class TrackConfigData {
+@freezed
+sealed class TrackConfigData with _$TrackConfigData {
   /// Creates a new [TrackConfigData] with the given configuration options.
-  TrackConfigData({
-    required this.trackDomain,
-    required this.container,
-    required this.environment,
-    required this.authorizationToken,
-    this.version,
-    this.debugCode,
-    this.sessionTimeoutInSeconds,
-    this.customProtocol,
-    this.enableOfflineTracking = true,
-    required this.offlineTimeout,
-  });
+  const factory TrackConfigData({
+    /// The tracking domain used for sending events.
+    required String trackDomain,
 
-  /// The tracking domain used for sending events.
-  String trackDomain;
+    /// The container ID for the Jentis SDK configuration.
+    required String container,
 
-  /// The container ID for the Jentis SDK configuration.
-  String container;
+    /// The environment (live or stage) for tracking.
+    required JentisEnvironment environment,
 
-  /// The environment (live or stage) for tracking.
-  JentisEnvironment environment;
+    /// The authorization token for secure communication.
+    required String authorizationToken,
 
-  /// The authorization token for secure communication.
-  String authorizationToken;
+    /// Optional version string
+    String? version,
 
-  /// Optional version string
-  String? version;
+    /// Optional debug code
+    String? debugCode,
 
-  /// Optional debug code
-  String? debugCode;
+    /// Optional session timeout in seconds.
+    int? sessionTimeoutInSeconds,
 
-  /// Optional session timeout in seconds.
-  int? sessionTimeoutInSeconds;
+    /// Optional protocol (http or https) for requests.
+    CustomProtocol? customProtocol,
 
-  /// Optional protocol (http or https) for requests.
-  CustomProtocol? customProtocol;
+    /// Whether offline tracking is enabled (default: true).
+    @Default(true) bool enableOfflineTracking,
 
-  /// Whether offline tracking is enabled (default: true).
-  bool enableOfflineTracking;
+    /// Timeout in seconds for offline event submission.
+    required int offlineTimeout,
+  }) = _TrackConfigData;
 
-  /// Timeout in seconds for offline event submission.
-  int offlineTimeout;
+  factory TrackConfigData.fromJson(Map<String, dynamic> json) =>
+      _$TrackConfigDataFromJson(json);
 }

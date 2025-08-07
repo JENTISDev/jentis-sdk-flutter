@@ -170,7 +170,7 @@ To contribute or extend the plugin:
 - Code generation:
 
   ```sh
-  flutter pub run build_runner build --delete-conflicting-outputs
+  dart run build_runner build --delete-conflicting-outputs
   ```
 
 - Generate Pigeon files:

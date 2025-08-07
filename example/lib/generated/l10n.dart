@@ -338,6 +338,16 @@ class Strings {
   String get eventSent {
     return Intl.message('Event sent', name: 'eventSent', desc: '', args: []);
   }
+
+  /// `Web-View Example`
+  String get webViewExample {
+    return Intl.message(
+      'Web-View Example',
+      name: 'webViewExample',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Strings> {

@@ -79,5 +79,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "version": m0,
     "versionCode": MessageLookupByLibrary.simpleMessage("Version"),
+    "webViewExample": MessageLookupByLibrary.simpleMessage("Web-View Example"),
   };
 }

@@ -43,6 +43,8 @@ dependencies:
   flutter_json_view: ^1.1.5
   intl: ^0.20.2
   json_annotation: ^4.9.0
+  webview_flutter: ^4.13.0
+  webview_flutter_android: ^4.8.2 # To enable debugging on Android
 
 dev_dependencies:
   integration_test:

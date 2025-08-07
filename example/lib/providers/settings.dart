@@ -20,10 +20,11 @@ class Settings extends _$Settings {
   }
 
   void updateSettings({
+    String? domain,
     CustomProtocol? customProtocol,
     String? trackDomain,
     String? container,
-    bool? enableDebugging,
+    //bool? enableDebugging,
     String? version,
     String? debugCode,
     int? sessionTimeoutInSeconds,
@@ -33,10 +34,11 @@ class Settings extends _$Settings {
     int? offlineTimeout,
   }) {
     final newState = SettingsState(
+      domain: domain ?? state.domain,
       customProtocol: customProtocol ?? state.customProtocol,
       trackDomain: trackDomain ?? state.trackDomain,
       container: container ?? state.container,
-      enableDebugging: enableDebugging ?? state.enableDebugging,
+      //enableDebugging: enableDebugging ?? state.enableDebugging,
       version: version ?? state.version,
       debugCode: debugCode ?? state.debugCode,
       sessionTimeoutInSeconds:

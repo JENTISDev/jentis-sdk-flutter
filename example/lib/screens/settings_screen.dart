@@ -18,6 +18,9 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  late final TextEditingController _domainController = TextEditingController(
+    text: ref.read(settingsProvider).domain,
+  );
   late final TextEditingController _trackDomainController =
       TextEditingController(text: ref.read(settingsProvider).trackDomain);
   late final TextEditingController _containerController = TextEditingController(
@@ -88,6 +91,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       ],
                     ),
                     TextField(
+                      controller: _domainController,
+                      decoration: InputDecoration(
+                        labelText: 'Domain (for web view tracking)',
+                      ),
+                      onChanged: (String value) {
+                        ref
+                            .read(settingsProvider.notifier)
+                            .updateSettings(domain: value);
+                      },
+                    ),
+                    TextField(
                       controller: _trackDomainController,
                       decoration: InputDecoration(
                         labelText: Strings.of(context).trackDomain,
@@ -109,7 +123,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             .updateSettings(container: value);
                       },
                     ),
-                    SwitchListTile(
+                    /*SwitchListTile(
                       title: Text(Strings.of(context).enableDebugging),
                       value: settings.enableDebugging,
                       onChanged: (bool value) {
@@ -117,7 +131,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             .read(settingsProvider.notifier)
                             .updateSettings(enableDebugging: value);
                       },
-                    ),
+                    ),*/
                     TextField(
                       controller: _versionController,
                       decoration: InputDecoration(
