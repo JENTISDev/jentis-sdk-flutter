@@ -6,7 +6,11 @@
     "Datalayer",
     "jentis",
     "okhttp",
-    "riverpod"
+    "onclick",
+    "pagetitle",
+    "paytype",
+    "riverpod",
+    "Testproduct"
   ],
   "explorer.fileNesting.patterns": {
     "*.dart": "${capture}.g.dart, ${capture}.freezed.dart"

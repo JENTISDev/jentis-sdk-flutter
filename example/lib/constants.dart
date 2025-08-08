@@ -14,6 +14,7 @@ const testConsents = [
 // Initial settings
 const initialSettings = SettingsState(
   customProtocol: CustomProtocol.https,
+  // cSpell:ignore kndmjh
   trackDomain: 'kndmjh.nuuk.jtm-demo.com',
   container: 'nuuk',
   //enableDebugging: false,
