@@ -84,7 +84,14 @@ const jsBridgeExample = '''
     <head>
         <title>Web-View-Bridge</title>
         <style>
+            #debug-log-container {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+
             #debug-log {
+                position: relative;
                 font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
                 font-size: 13px;
                 background: #f5f5f5;
@@ -95,6 +102,32 @@ const jsBridgeExample = '''
                 max-height: 200px;
                 overflow-y: auto;
                 white-space: pre-wrap;
+            }
+
+            #copy-debug-log {
+                position: absolute;
+                top: 32px;
+                right: 8px;
+                opacity: 0.7;
+                padding: 2px;
+                z-index: 1;
+            }
+
+            #copied-feedback {
+                position: absolute;
+                top: 45px;
+                right: 40px;
+                background: #222;
+                color: #fff;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                opacity: 0;
+                z-index: 1;
+                transform: translateY(-50%);
+            }
+            #copied-feedback.visible {
+                opacity: 1;
             }
         </style>
         <script type="text/javascript">
@@ -174,7 +207,16 @@ const jsBridgeExample = '''
         <button id="btn-pageview" type="button">Push pageview event</button>
         <button id="btn-submit" type="button">Push submit event</button>
 
-        <pre id="debug-log"></pre>
+        <div id="debug-log-container">
+            <button id="copy-debug-log" title="Copy log to clipboard" aria-label="Copy log">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="7" width="9" height="10" rx="2" stroke="#222" stroke-width="1.5" fill="#fff"/>
+                    <rect x="7" y="3" width="9" height="10" rx="2" stroke="#222" stroke-width="1.5" fill="#fff"/>
+                </svg>
+            </button>
+            <span id="copied-feedback">Copied!</span>
+            <pre id="debug-log"></pre>
+        </div>
 
         <script type="text/javascript">
             // Add event listeners for test buttons
@@ -184,6 +226,33 @@ const jsBridgeExample = '''
             document.getElementById('btn-submit').onclick = function() {
                 window._jts.push({ track: 'submit' });
             };
+
+            // Copy debug log to clipboard
+            document.getElementById('copy-debug-log').onclick = function() {
+                const log = document.getElementById('debug-log').textContent;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(log).then(function() {
+                        showCopiedFeedback();
+                    });
+                } else if (Clipboard) {
+                    // Use Flutter JavaScript channel as fallback
+                    Clipboard.postMessage(log);
+                    showCopiedFeedback();
+                } else {
+                    console.log('Failed to copy log');
+                }
+            };
+            
+            function showCopiedFeedback() {
+                // Show feedback message
+                const feedback = document.getElementById('copied-feedback');
+                feedback.classList.add('visible');
+
+                // Hide feedback after 2 seconds
+                setTimeout(function() {
+                    feedback.classList.remove('visible');
+                }, 2000);
+            }
         </script>
     </body>
 </html>''';

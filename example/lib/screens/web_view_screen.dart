@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jentis_flutter/jentis_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -64,8 +65,15 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
         ),
       )
       ..addJavaScriptChannel(
+        'Clipboard',
+        onMessageReceived: (jsMessage) async {
+          // Handle clipboard messages
+          await Clipboard.setData(ClipboardData(text: jsMessage.message));
+        },
+      )
+      ..addJavaScriptChannel(
         'flutterMessageHandler',
-        onMessageReceived: (jsMessage) async {},
+        onMessageReceived: onFlutterMessageReceived,
       )
       ..loadHtmlString(jsBridgeExample);
 
