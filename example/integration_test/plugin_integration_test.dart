@@ -1,5 +1,7 @@
 // Copyright © 2025 JENTIS GmbH
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +19,15 @@ import 'package:jentis_flutter_example/screens/tracking_screen.dart';
 import 'package:jentis_flutter_example/screens/web_view_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   final packageInfo = await PackageInfo.fromPlatform();
+
+  // Test-only variable to capture the controller
+  Completer<WebViewController?> testController = Completer();
 
   // GoRouter configuration
   final router = GoRouter(
@@ -55,7 +61,13 @@ Future<void> main() async {
           GoRoute(
             path: '/${WebViewScreen.path}',
             builder: (context, state) {
-              return WebViewScreen();
+              return WebViewScreen(
+                onPageFinished: (controller) {
+                  if (!testController.isCompleted) {
+                    testController.complete(controller);
+                  }
+                },
+              );
             },
           ),
         ],
@@ -89,6 +101,54 @@ Future<void> main() async {
   );
 
   group('Example App Integration Tests', () {
+    testWidgets('WebView example triggers JS events', (
+      WidgetTester tester,
+    ) async {
+      // Reset the test controller before each test
+      testController = Completer();
+
+      // Renders the UI from the given widget
+      await tester.pumpWidget(myApp);
+
+      // Wait for all animations to have completed
+      await tester.pumpAndSettle();
+
+      // Ensure navigation is at root
+      var context = tester.element(find.byType(Scaffold));
+      GoRouter.of(context).go('/');
+      await tester.pumpAndSettle();
+
+      // Get a new context after navigation
+      context = tester.element(find.byType(Scaffold));
+
+      // Tap on "WebView Example" button
+      final webViewButton = find.widgetWithText(
+        ElevatedButton,
+        Strings.of(context).webViewExample,
+      );
+      expect(webViewButton, findsOneWidget);
+      await tester.tap(webViewButton);
+
+      // Wait for the controller to be set
+      final controller = await testController.future.timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          throw Exception('WebViewController was not set in time');
+        },
+      );
+
+      // Execute JavaScript to click the pageview and submit buttons
+      await controller?.runJavaScript(
+        "document.getElementById('btn-pageview').click();",
+      );
+      await tester.pumpAndSettle();
+      await controller?.runJavaScript(
+        "document.getElementById('btn-submit').click();",
+      );
+      await tester.pumpAndSettle();
+      // No assertion needed, just ensure no error occurs
+    });
+
     testWidgets('Change privacy settings', (WidgetTester tester) async {
       // Renders the UI from the given widget
       await tester.pumpWidget(myApp);
@@ -97,9 +157,12 @@ Future<void> main() async {
       await tester.pumpAndSettle();
 
       // Ensure navigation is at root
-      final context = tester.element(find.byType(Scaffold));
+      var context = tester.element(find.byType(Scaffold));
       GoRouter.of(context).go('/');
       await tester.pumpAndSettle();
+
+      // Get a new context after navigation
+      context = tester.element(find.byType(Scaffold));
 
       // Get the consents text and button
       final consentsText = Strings.of(context).consents;

@@ -15,9 +15,12 @@ import '../providers/settings.dart';
 import '../utils.dart';
 
 class WebViewScreen extends ConsumerStatefulWidget {
-  const WebViewScreen({super.key});
+  const WebViewScreen({super.key, this.onPageFinished});
 
   static const path = 'webview';
+
+  /// Optional callback for test code to access the WebViewController
+  final void Function(WebViewController controller)? onPageFinished;
 
   @override
   ConsumerState<WebViewScreen> createState() => _WebViewScreenState();
@@ -54,6 +57,9 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
 
             // Inject JavaScript to override the push method
             await _controller.runJavaScript(dataLayerPushOverride);
+
+            // Call the optional callback if provided
+            widget.onPageFinished?.call(_controller);
           },
         ),
       )
