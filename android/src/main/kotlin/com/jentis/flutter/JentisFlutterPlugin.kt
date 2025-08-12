@@ -159,7 +159,7 @@ class JentisFlutterPlugin : FlutterPlugin, JentisApi, ActivityAware {
         val enrichmentMap =
             mapOf(
                 "plugin" to mapOf("pluginId" to enrichment.pluginId), "enrichment" to mapOf(
-                    "variablesEnrichment" to (enrichment.variables ?: emptyList<String>())
+                    "variablesEnrichment" to (enrichment.variables ?: emptyList())
                 ), "args" to (enrichment.arguments?.filterValues { it != null }?.mapValues {
                     it.value as Any
                 } ?: emptyMap()))
@@ -171,7 +171,7 @@ class JentisFlutterPlugin : FlutterPlugin, JentisApi, ActivityAware {
         val enrichmentMap =
             mapOf(
                 "plugin" to mapOf("pluginId" to enrichment.pluginId), "enrichment" to mapOf(
-                    "variablesEnrichment" to (enrichment.variables ?: emptyList<String>())
+                    "variablesEnrichment" to (enrichment.variables ?: emptyList())
                 ), "args" to (enrichment.arguments?.filterValues { it != null }?.mapValues {
                     it.value as Any
                 } ?: emptyMap()))

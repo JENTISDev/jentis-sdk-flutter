@@ -13,30 +13,29 @@ class SharedPreferencesRepository {
 
   final SharedPreferencesWithCache sharedPreferences;
 
-  static const String _consents = 'consents';
+  static const String _consentsKey = 'consents';
+  static const String _settingsStateKey = 'settings_state';
 
   List<Consent> get consents {
-    final stringList = sharedPreferences.getStringList(_consents);
-    if (stringList != null) {
-      return stringList
-          .map((item) => Consent.fromJson(jsonDecode(item)))
-          .toList();
-    }
-    return testConsents;
+    final consents =
+        sharedPreferences
+            .getStringList(_consentsKey)
+            ?.map((item) => Consent.fromJson(jsonDecode(item)))
+            .toList();
+
+    return consents ?? testConsents;
   }
 
   set consents(List<Consent> value) {
-    final stringList = value.map((item) => jsonEncode(item.toJson())).toList();
-    sharedPreferences.setStringList(_consents, stringList);
+    final consents = value.map((item) => jsonEncode(item.toJson())).toList();
+    sharedPreferences.setStringList(_consentsKey, consents);
   }
 
-  static const String _settingsState = 'settings_state';
-
   SettingsState? get settingsState {
-    final jsonString = sharedPreferences.getString(_settingsState);
+    final settingsJson = sharedPreferences.getString(_settingsStateKey);
 
-    if (jsonString != null) {
-      return SettingsState.fromJson(jsonDecode(jsonString));
+    if (settingsJson != null) {
+      return SettingsState.fromJson(jsonDecode(settingsJson));
     }
 
     return null;
@@ -44,10 +43,10 @@ class SharedPreferencesRepository {
 
   set settingsState(SettingsState? value) {
     if (value != null) {
-      final jsonString = jsonEncode(value.toJson());
-      sharedPreferences.setString(_settingsState, jsonString);
+      final settingsJson = jsonEncode(value.toJson());
+      sharedPreferences.setString(_settingsStateKey, settingsJson);
     } else {
-      sharedPreferences.remove(_settingsState);
+      sharedPreferences.remove(_settingsStateKey);
     }
   }
 }
