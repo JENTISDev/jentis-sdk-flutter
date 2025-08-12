@@ -102,7 +102,7 @@ class JentisFlutterPlugin : FlutterPlugin, JentisApi, ActivityAware {
                 application = application!!,
                 trackDomain = config.trackDomain,
                 container = config.container,
-                environment = config.environment.name,
+                environment = config.environment.name.lowercase(),
                 version = config.version,
                 debugCode = config.debugCode,
                 authToken = config.authorizationToken,

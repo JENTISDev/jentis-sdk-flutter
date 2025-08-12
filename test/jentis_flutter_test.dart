@@ -63,10 +63,11 @@ void main() {
     test('initialize should complete without errors', () async {
       final config = TrackConfigData(
         customProtocol: CustomProtocol.https,
+        // cSpell:ignore kndmjh
         trackDomain: 'kndmjh.nuuk.jtm-demo.com',
         container: 'nuuk',
         version: '1',
-        debugCode: '05f60751-b478-4e78-b17b-8b3c70ce3d0e',
+        debugCode: '63832533-c83b-48f2-883d-74289329af7a',
         sessionTimeoutInSeconds: 1800,
         authorizationToken: '1234',
         environment: JentisEnvironment.live,
@@ -131,7 +132,7 @@ void main() {
         trackDomain: 'kndmjh.nuuk.jtm-demo.com',
         container: 'nuuk',
         version: '1',
-        debugCode: '05f60751-b478-4e78-b17b-8b3c70ce3d0e',
+        debugCode: '63832533-c83b-48f2-883d-74289329af7a',
         sessionTimeoutInSeconds: 1800,
         authorizationToken: '1234',
         environment: JentisEnvironment.live,

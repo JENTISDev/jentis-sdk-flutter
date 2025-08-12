@@ -32,6 +32,15 @@ class Jentis {
           JentisEnvironment.stage => Environment.stage,
         },
         authorizationToken: config.authorizationToken,
+        version: config.version,
+        debugCode: config.debugCode,
+        customProtocol: switch (config.customProtocol) {
+          CustomProtocol.http => Protocol.http,
+          CustomProtocol.https => Protocol.https,
+          null => null,
+        },
+        sessionTimeoutInSeconds: config.sessionTimeoutInSeconds,
+        enableOfflineTracking: config.enableOfflineTracking,
         offlineTimeout: config.offlineTimeout,
       ),
     );

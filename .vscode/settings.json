@@ -1,6 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
   "cSpell.words": [
+    "addtocart",
     "adwords",
     "brutto",
     "Datalayer",
@@ -9,6 +10,7 @@
     "onclick",
     "pagetitle",
     "paytype",
+    "productview",
     "riverpod",
     "Testproduct"
   ],
