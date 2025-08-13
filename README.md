@@ -54,6 +54,28 @@ allprojects {
 }
 ```
 
+### Support for cleartext traffic
+
+If you need to support cleartext traffic you have to allow it first.
+
+/ios/Runner/Info.plist
+
+```plist
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <string>YES</string>
+</dict>
+```
+
+/android/app/src/main/AndroidManifest.xml
+
+```xml
+<application
+        ...
+        android:usesCleartextTraffic="true">
+```
+
 ---
 
 ## Initialization
