@@ -2,16 +2,6 @@
 
 A Flutter plugin for the Jentis SDK.
 
-## Example apps
-
-### Basic example
-
-This basic example is easy to understand and does not use any optional dependencies.
-
-### Advanced example
-
-For a more advanced setup you can take a look at this example project.
-
 ---
 
 ## Installation
@@ -186,6 +176,16 @@ Tracking in WebViews is supported via a JavaScript bridge. Events pushed to the 
 See the advanced example for a full implementation and details on how to customize the integration.
 
 ---
+
+## Example apps
+
+### Basic example
+
+This basic example is easy to understand and does not use any optional dependencies.
+
+### Advanced example
+
+For a more advanced setup you can take a look at this example project.
 
 ## Testing
 
