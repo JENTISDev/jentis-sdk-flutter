@@ -12,7 +12,7 @@ Future<void> main() async {
       trackDomain: 'kndmjh.nuuk.jtm-demo.com',
       container: 'nuuk',
       version: '1',
-      debugCode: '63832533-c83b-48f2-883d-74289329af7a',
+      debugCode: '6fce27c5-6121-4974-b7be-9018abde551d',
       authorizationToken: '1234',
       environment: JentisEnvironment.live,
       offlineTimeout: 3600,

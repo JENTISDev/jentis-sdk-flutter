@@ -86,7 +86,7 @@ await jentis.initialize(
     trackDomain: 'kndmjh.nuuk.jtm-demo.com',
     container: 'nuuk',
     version: '1',
-    debugCode: '63832533-c83b-48f2-883d-74289329af7a',
+    debugCode: '6fce27c5-6121-4974-b7be-9018abde551d',
     authorizationToken: '1234',
     environment: JentisEnvironment.live,
     offlineTimeout: 3600,
@@ -186,6 +186,18 @@ Tracking in WebViews is supported via a JavaScript bridge. Events pushed to the 
 See the advanced example for a full implementation and details on how to customize the integration.
 
 ---
+
+## Testing
+
+To test your app with the Jentis backend:
+
+1. Go to **Publish > Preview** in the Jentis backend.
+2. You will see a URL containing the parameters `jts_preview` and `jts_debug`.
+3. Copy the values of these parameters from the URL:
+   - Use the value of `jts_preview` for the `version` attribute in your SDK configuration.
+   - Use the value of `jts_debug` for the `debugCode` attribute in your SDK configuration.
+4. Start your app and begin sending events.
+5. In the Jentis backend, make sure to enable **Logs** in the filter to see incoming data
 
 ## Plugin Development
 
