@@ -38,5 +38,7 @@
   "eventSent": "Event sent",
   "webViewExample": "Web-View Example",
   "copiedToClipboard": "Copied to clipboard",
-  "failedToInitializeJentis": "Failed to initialize Jentis"
+  "failedToInitializeJentis": "Failed to initialize Jentis",
+  "enableOfflineTracking": "Enable Offline Tracking",
+  "offlineTimeoutSeconds": "Offline Timeout (seconds)"
 }

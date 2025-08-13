@@ -45,6 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "eCommerceInitiators": MessageLookupByLibrary.simpleMessage(
       "E-commerce Initiators",
     ),
+    "enableOfflineTracking": MessageLookupByLibrary.simpleMessage(
+      "Enable Offline Tracking",
+    ),
     "enterCustomInitiator": MessageLookupByLibrary.simpleMessage(
       "Enter custom initiator",
     ),
@@ -65,6 +68,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "liveEnvironment": MessageLookupByLibrary.simpleMessage("Live"),
     "ncm": MessageLookupByLibrary.simpleMessage("ncm"),
     "noRequestsYet": MessageLookupByLibrary.simpleMessage("No requests yet."),
+    "offlineTimeoutSeconds": MessageLookupByLibrary.simpleMessage(
+      "Offline Timeout (seconds)",
+    ),
     "orderAction": MessageLookupByLibrary.simpleMessage("Order"),
     "pageViewAction": MessageLookupByLibrary.simpleMessage("PageView"),
     "productViewAction": MessageLookupByLibrary.simpleMessage("ProductView"),

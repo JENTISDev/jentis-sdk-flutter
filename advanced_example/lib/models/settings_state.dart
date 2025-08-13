@@ -13,8 +13,8 @@ sealed class SettingsState with _$SettingsState {
   const SettingsState._();
 
   const factory SettingsState({
-    String? domain, // The tracked domain (important for web views)
     CustomProtocol? customProtocol,
+    String? domain, // The tracked domain (important for web views)
     required String trackDomain,
     required String container,
     String? version,

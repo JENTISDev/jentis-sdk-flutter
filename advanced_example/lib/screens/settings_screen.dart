@@ -1,6 +1,7 @@
 // Copyright © 2025 JENTIS GmbH
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jentis_flutter/jentis_flutter.dart';
 
@@ -39,6 +40,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   late final TextEditingController _authorizationTokenController =
       TextEditingController(
         text: ref.read(settingsProvider).authorizationToken,
+      );
+  late final TextEditingController _offlineTimeoutController =
+      TextEditingController(
+        text: ref.read(settingsProvider).offlineTimeout.toString(),
       );
 
   @override
@@ -150,11 +155,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       decoration: InputDecoration(
                         labelText: Strings.of(context).sessionTimeoutSeconds,
                       ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       onChanged: (String value) {
                         final int? timeout = int.tryParse(value);
-                        ref
-                            .read(settingsProvider.notifier)
-                            .updateSettings(sessionTimeoutInSeconds: timeout);
+
+                        if (timeout != null) {
+                          ref
+                              .read(settingsProvider.notifier)
+                              .updateSettings(sessionTimeoutInSeconds: timeout);
+                        }
                       },
                     ),
                     TextField(
@@ -205,6 +215,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           ],
                         ),
                       ],
+                    ),
+                    TextField(
+                      controller: _offlineTimeoutController,
+                      decoration: InputDecoration(
+                        labelText: Strings.of(context).offlineTimeoutSeconds,
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onChanged: (String value) {
+                        final int? timeout = int.tryParse(value);
+
+                        if (timeout != null) {
+                          ref
+                              .read(settingsProvider.notifier)
+                              .updateSettings(offlineTimeout: timeout);
+                        }
+                      },
+                    ),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(Strings.of(context).enableOfflineTracking),
+                      value: settings.enableOfflineTracking,
+                      onChanged: (bool value) {
+                        ref
+                            .read(settingsProvider.notifier)
+                            .updateSettings(enableOfflineTracking: value);
+                      },
                     ),
                   ],
                 ),

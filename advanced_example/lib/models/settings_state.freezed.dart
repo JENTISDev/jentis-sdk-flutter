@@ -15,8 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- String? get domain;// The tracked domain (important for web views)
- CustomProtocol? get customProtocol; String get trackDomain; String get container; String? get version; String? get debugCode; int? get sessionTimeoutInSeconds; String get authorizationToken; JentisEnvironment get environment; bool get enableOfflineTracking; int get offlineTimeout;
+ CustomProtocol? get customProtocol; String? get domain;// The tracked domain (important for web views)
+ String get trackDomain; String get container; String? get version; String? get debugCode; int? get sessionTimeoutInSeconds; String get authorizationToken; JentisEnvironment get environment; bool get enableOfflineTracking; int get offlineTimeout;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.customProtocol, customProtocol) || other.customProtocol == customProtocol)&&(identical(other.trackDomain, trackDomain) || other.trackDomain == trackDomain)&&(identical(other.container, container) || other.container == container)&&(identical(other.version, version) || other.version == version)&&(identical(other.debugCode, debugCode) || other.debugCode == debugCode)&&(identical(other.sessionTimeoutInSeconds, sessionTimeoutInSeconds) || other.sessionTimeoutInSeconds == sessionTimeoutInSeconds)&&(identical(other.authorizationToken, authorizationToken) || other.authorizationToken == authorizationToken)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.enableOfflineTracking, enableOfflineTracking) || other.enableOfflineTracking == enableOfflineTracking)&&(identical(other.offlineTimeout, offlineTimeout) || other.offlineTimeout == offlineTimeout));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.customProtocol, customProtocol) || other.customProtocol == customProtocol)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.trackDomain, trackDomain) || other.trackDomain == trackDomain)&&(identical(other.container, container) || other.container == container)&&(identical(other.version, version) || other.version == version)&&(identical(other.debugCode, debugCode) || other.debugCode == debugCode)&&(identical(other.sessionTimeoutInSeconds, sessionTimeoutInSeconds) || other.sessionTimeoutInSeconds == sessionTimeoutInSeconds)&&(identical(other.authorizationToken, authorizationToken) || other.authorizationToken == authorizationToken)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.enableOfflineTracking, enableOfflineTracking) || other.enableOfflineTracking == enableOfflineTracking)&&(identical(other.offlineTimeout, offlineTimeout) || other.offlineTimeout == offlineTimeout));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,customProtocol,trackDomain,container,version,debugCode,sessionTimeoutInSeconds,authorizationToken,environment,enableOfflineTracking,offlineTimeout);
+int get hashCode => Object.hash(runtimeType,customProtocol,domain,trackDomain,container,version,debugCode,sessionTimeoutInSeconds,authorizationToken,environment,enableOfflineTracking,offlineTimeout);
 
 @override
 String toString() {
-  return 'SettingsState(domain: $domain, customProtocol: $customProtocol, trackDomain: $trackDomain, container: $container, version: $version, debugCode: $debugCode, sessionTimeoutInSeconds: $sessionTimeoutInSeconds, authorizationToken: $authorizationToken, environment: $environment, enableOfflineTracking: $enableOfflineTracking, offlineTimeout: $offlineTimeout)';
+  return 'SettingsState(customProtocol: $customProtocol, domain: $domain, trackDomain: $trackDomain, container: $container, version: $version, debugCode: $debugCode, sessionTimeoutInSeconds: $sessionTimeoutInSeconds, authorizationToken: $authorizationToken, environment: $environment, enableOfflineTracking: $enableOfflineTracking, offlineTimeout: $offlineTimeout)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- String? domain, CustomProtocol? customProtocol, String trackDomain, String container, String? version, String? debugCode, int? sessionTimeoutInSeconds, String authorizationToken, JentisEnvironment environment, bool enableOfflineTracking, int offlineTimeout
+ CustomProtocol? customProtocol, String? domain, String trackDomain, String container, String? version, String? debugCode, int? sessionTimeoutInSeconds, String authorizationToken, JentisEnvironment environment, bool enableOfflineTracking, int offlineTimeout
 });
 
 
@@ -66,11 +66,11 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? domain = freezed,Object? customProtocol = freezed,Object? trackDomain = null,Object? container = null,Object? version = freezed,Object? debugCode = freezed,Object? sessionTimeoutInSeconds = freezed,Object? authorizationToken = null,Object? environment = null,Object? enableOfflineTracking = null,Object? offlineTimeout = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customProtocol = freezed,Object? domain = freezed,Object? trackDomain = null,Object? container = null,Object? version = freezed,Object? debugCode = freezed,Object? sessionTimeoutInSeconds = freezed,Object? authorizationToken = null,Object? environment = null,Object? enableOfflineTracking = null,Object? offlineTimeout = null,}) {
   return _then(_self.copyWith(
-domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as String?,customProtocol: freezed == customProtocol ? _self.customProtocol : customProtocol // ignore: cast_nullable_to_non_nullable
-as CustomProtocol?,trackDomain: null == trackDomain ? _self.trackDomain : trackDomain // ignore: cast_nullable_to_non_nullable
+customProtocol: freezed == customProtocol ? _self.customProtocol : customProtocol // ignore: cast_nullable_to_non_nullable
+as CustomProtocol?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as String?,trackDomain: null == trackDomain ? _self.trackDomain : trackDomain // ignore: cast_nullable_to_non_nullable
 as String,container: null == container ? _self.container : container // ignore: cast_nullable_to_non_nullable
 as String,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,debugCode: freezed == debugCode ? _self.debugCode : debugCode // ignore: cast_nullable_to_non_nullable
@@ -161,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? domain,  CustomProtocol? customProtocol,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CustomProtocol? customProtocol,  String? domain,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);case _:
+return $default(_that.customProtocol,_that.domain,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);case _:
   return orElse();
 
 }
@@ -182,10 +182,10 @@ return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.contai
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? domain,  CustomProtocol? customProtocol,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CustomProtocol? customProtocol,  String? domain,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);}
+return $default(_that.customProtocol,_that.domain,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -199,10 +199,10 @@ return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.contai
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? domain,  CustomProtocol? customProtocol,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CustomProtocol? customProtocol,  String? domain,  String trackDomain,  String container,  String? version,  String? debugCode,  int? sessionTimeoutInSeconds,  String authorizationToken,  JentisEnvironment environment,  bool enableOfflineTracking,  int offlineTimeout)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);case _:
+return $default(_that.customProtocol,_that.domain,_that.trackDomain,_that.container,_that.version,_that.debugCode,_that.sessionTimeoutInSeconds,_that.authorizationToken,_that.environment,_that.enableOfflineTracking,_that.offlineTimeout);case _:
   return null;
 
 }
@@ -214,12 +214,12 @@ return $default(_that.domain,_that.customProtocol,_that.trackDomain,_that.contai
 @JsonSerializable()
 
 class _SettingsState extends SettingsState {
-  const _SettingsState({this.domain, this.customProtocol, required this.trackDomain, required this.container, this.version, this.debugCode, this.sessionTimeoutInSeconds, required this.authorizationToken, required this.environment, this.enableOfflineTracking = true, this.offlineTimeout = 3600}): super._();
+  const _SettingsState({this.customProtocol, this.domain, required this.trackDomain, required this.container, this.version, this.debugCode, this.sessionTimeoutInSeconds, required this.authorizationToken, required this.environment, this.enableOfflineTracking = true, this.offlineTimeout = 3600}): super._();
   factory _SettingsState.fromJson(Map<String, dynamic> json) => _$SettingsStateFromJson(json);
 
+@override final  CustomProtocol? customProtocol;
 @override final  String? domain;
 // The tracked domain (important for web views)
-@override final  CustomProtocol? customProtocol;
 @override final  String trackDomain;
 @override final  String container;
 @override final  String? version;
@@ -243,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.customProtocol, customProtocol) || other.customProtocol == customProtocol)&&(identical(other.trackDomain, trackDomain) || other.trackDomain == trackDomain)&&(identical(other.container, container) || other.container == container)&&(identical(other.version, version) || other.version == version)&&(identical(other.debugCode, debugCode) || other.debugCode == debugCode)&&(identical(other.sessionTimeoutInSeconds, sessionTimeoutInSeconds) || other.sessionTimeoutInSeconds == sessionTimeoutInSeconds)&&(identical(other.authorizationToken, authorizationToken) || other.authorizationToken == authorizationToken)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.enableOfflineTracking, enableOfflineTracking) || other.enableOfflineTracking == enableOfflineTracking)&&(identical(other.offlineTimeout, offlineTimeout) || other.offlineTimeout == offlineTimeout));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.customProtocol, customProtocol) || other.customProtocol == customProtocol)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.trackDomain, trackDomain) || other.trackDomain == trackDomain)&&(identical(other.container, container) || other.container == container)&&(identical(other.version, version) || other.version == version)&&(identical(other.debugCode, debugCode) || other.debugCode == debugCode)&&(identical(other.sessionTimeoutInSeconds, sessionTimeoutInSeconds) || other.sessionTimeoutInSeconds == sessionTimeoutInSeconds)&&(identical(other.authorizationToken, authorizationToken) || other.authorizationToken == authorizationToken)&&(identical(other.environment, environment) || other.environment == environment)&&(identical(other.enableOfflineTracking, enableOfflineTracking) || other.enableOfflineTracking == enableOfflineTracking)&&(identical(other.offlineTimeout, offlineTimeout) || other.offlineTimeout == offlineTimeout));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,customProtocol,trackDomain,container,version,debugCode,sessionTimeoutInSeconds,authorizationToken,environment,enableOfflineTracking,offlineTimeout);
+int get hashCode => Object.hash(runtimeType,customProtocol,domain,trackDomain,container,version,debugCode,sessionTimeoutInSeconds,authorizationToken,environment,enableOfflineTracking,offlineTimeout);
 
 @override
 String toString() {
-  return 'SettingsState(domain: $domain, customProtocol: $customProtocol, trackDomain: $trackDomain, container: $container, version: $version, debugCode: $debugCode, sessionTimeoutInSeconds: $sessionTimeoutInSeconds, authorizationToken: $authorizationToken, environment: $environment, enableOfflineTracking: $enableOfflineTracking, offlineTimeout: $offlineTimeout)';
+  return 'SettingsState(customProtocol: $customProtocol, domain: $domain, trackDomain: $trackDomain, container: $container, version: $version, debugCode: $debugCode, sessionTimeoutInSeconds: $sessionTimeoutInSeconds, authorizationToken: $authorizationToken, environment: $environment, enableOfflineTracking: $enableOfflineTracking, offlineTimeout: $offlineTimeout)';
 }
 
 
@@ -263,7 +263,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? domain, CustomProtocol? customProtocol, String trackDomain, String container, String? version, String? debugCode, int? sessionTimeoutInSeconds, String authorizationToken, JentisEnvironment environment, bool enableOfflineTracking, int offlineTimeout
+ CustomProtocol? customProtocol, String? domain, String trackDomain, String container, String? version, String? debugCode, int? sessionTimeoutInSeconds, String authorizationToken, JentisEnvironment environment, bool enableOfflineTracking, int offlineTimeout
 });
 
 
@@ -280,11 +280,11 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? domain = freezed,Object? customProtocol = freezed,Object? trackDomain = null,Object? container = null,Object? version = freezed,Object? debugCode = freezed,Object? sessionTimeoutInSeconds = freezed,Object? authorizationToken = null,Object? environment = null,Object? enableOfflineTracking = null,Object? offlineTimeout = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? customProtocol = freezed,Object? domain = freezed,Object? trackDomain = null,Object? container = null,Object? version = freezed,Object? debugCode = freezed,Object? sessionTimeoutInSeconds = freezed,Object? authorizationToken = null,Object? environment = null,Object? enableOfflineTracking = null,Object? offlineTimeout = null,}) {
   return _then(_SettingsState(
-domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as String?,customProtocol: freezed == customProtocol ? _self.customProtocol : customProtocol // ignore: cast_nullable_to_non_nullable
-as CustomProtocol?,trackDomain: null == trackDomain ? _self.trackDomain : trackDomain // ignore: cast_nullable_to_non_nullable
+customProtocol: freezed == customProtocol ? _self.customProtocol : customProtocol // ignore: cast_nullable_to_non_nullable
+as CustomProtocol?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as String?,trackDomain: null == trackDomain ? _self.trackDomain : trackDomain // ignore: cast_nullable_to_non_nullable
 as String,container: null == container ? _self.container : container // ignore: cast_nullable_to_non_nullable
 as String,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,debugCode: freezed == debugCode ? _self.debugCode : debugCode // ignore: cast_nullable_to_non_nullable

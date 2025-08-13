@@ -358,6 +358,26 @@ class Strings {
       args: [],
     );
   }
+
+  /// `Enable Offline Tracking`
+  String get enableOfflineTracking {
+    return Intl.message(
+      'Enable Offline Tracking',
+      name: 'enableOfflineTracking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offline Timeout (seconds)`
+  String get offlineTimeoutSeconds {
+    return Intl.message(
+      'Offline Timeout (seconds)',
+      name: 'offlineTimeoutSeconds',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Strings> {

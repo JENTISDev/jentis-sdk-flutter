@@ -8,11 +8,11 @@ part of 'settings_state.dart';
 
 _SettingsState _$SettingsStateFromJson(Map<String, dynamic> json) =>
     _SettingsState(
-      domain: json['domain'] as String?,
       customProtocol: $enumDecodeNullable(
         _$CustomProtocolEnumMap,
         json['customProtocol'],
       ),
+      domain: json['domain'] as String?,
       trackDomain: json['trackDomain'] as String,
       container: json['container'] as String,
       version: json['version'] as String?,
@@ -27,8 +27,8 @@ _SettingsState _$SettingsStateFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SettingsStateToJson(_SettingsState instance) =>
     <String, dynamic>{
-      'domain': instance.domain,
       'customProtocol': _$CustomProtocolEnumMap[instance.customProtocol],
+      'domain': instance.domain,
       'trackDomain': instance.trackDomain,
       'container': instance.container,
       'version': instance.version,
