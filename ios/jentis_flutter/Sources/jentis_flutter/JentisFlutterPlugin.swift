@@ -50,7 +50,8 @@ public class JentisFlutterPlugin: NSObject, FlutterPlugin, JentisApi,
         ? Double(config.sessionTimeoutInSeconds!) : nil,
       authorizationToken: config.authorizationToken,
       customProtocol: protocolString,
-      enableOfflineTracking: config.enableOfflineTracking
+      enableOfflineTracking: config.enableOfflineTracking,
+      offlineTrackingTimeout: Double(config.offlineTimeout)
     )
 
     JentisService.configure(with: config)
@@ -83,10 +84,11 @@ public class JentisFlutterPlugin: NSObject, FlutterPlugin, JentisApi,
         ? Double(config.sessionTimeoutInSeconds!) : nil,
       authorizationToken: config.authorizationToken,
       customProtocol: protocolString,
-      enableOfflineTracking: config.enableOfflineTracking
+      enableOfflineTracking: config.enableOfflineTracking,
+      offlineTrackingTimeout: Double(config.offlineTimeout)
     )
 
-    JentisService.restartConfig(config: <#T##TrackConfig#>)
+    JentisService.configure(with: config)
   }
 
   func setConsents(
