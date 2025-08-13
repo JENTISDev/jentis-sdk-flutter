@@ -13,7 +13,7 @@ let package = Package(
     .library(name: "jentis-flutter", targets: ["jentis_flutter"])
   ],
   dependencies: [
-    .package(url: "https://github.com/JENTISDev/jentis-sdk-ios-releases.git", from: "1.0.0")
+    .package(url: "https://github.com/JENTISDev/jentis-sdk-ios-releases.git", from: "1.0.5")
   ],
   targets: [
     .target(
