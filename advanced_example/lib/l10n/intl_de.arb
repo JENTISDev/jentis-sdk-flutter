@@ -20,7 +20,6 @@
   "eCommerceInitiators": "E-commerce Initiators",
   "httpsProtocol": "https://",
   "httpProtocol": "http://",
-  "enableDebugging": "Enable Debugging",
   "protocol": "Protocol",
   "environment": "Environment",
   "liveEnvironment": "Live",

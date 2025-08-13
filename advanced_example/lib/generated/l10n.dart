@@ -219,16 +219,6 @@ class Strings {
     return Intl.message('http://', name: 'httpProtocol', desc: '', args: []);
   }
 
-  /// `Enable Debugging`
-  String get enableDebugging {
-    return Intl.message(
-      'Enable Debugging',
-      name: 'enableDebugging',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Protocol`
   String get protocol {
     return Intl.message('Protocol', name: 'protocol', desc: '', args: []);

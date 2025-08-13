@@ -123,15 +123,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             .updateSettings(container: value);
                       },
                     ),
-                    /*SwitchListTile(
-                      title: Text(Strings.of(context).enableDebugging),
-                      value: settings.enableDebugging,
-                      onChanged: (bool value) {
-                        ref
-                            .read(settingsProvider.notifier)
-                            .updateSettings(enableDebugging: value);
-                      },
-                    ),*/
                     TextField(
                       controller: _versionController,
                       decoration: InputDecoration(

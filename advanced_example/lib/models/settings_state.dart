@@ -17,7 +17,6 @@ sealed class SettingsState with _$SettingsState {
     CustomProtocol? customProtocol,
     required String trackDomain,
     required String container,
-    //@Default(false) bool enableDebugging,
     String? version,
     String? debugCode,
     int? sessionTimeoutInSeconds,

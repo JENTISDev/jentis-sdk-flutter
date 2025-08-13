@@ -78,8 +78,8 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
       ..loadHtmlString(jsBridgeExample);
 
     // Enable debugging on Android when in debug mode
-    if (kDebugMode && controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(kDebugMode);
     }
 
     _controller = controller;

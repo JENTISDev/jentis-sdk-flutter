@@ -16,8 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$SettingsState {
 
  String? get domain;// The tracked domain (important for web views)
- CustomProtocol? get customProtocol; String get trackDomain; String get container;//@Default(false) bool enableDebugging,
- String? get version; String? get debugCode; int? get sessionTimeoutInSeconds; String get authorizationToken; JentisEnvironment get environment; bool get enableOfflineTracking; int get offlineTimeout;
+ CustomProtocol? get customProtocol; String get trackDomain; String get container; String? get version; String? get debugCode; int? get sessionTimeoutInSeconds; String get authorizationToken; JentisEnvironment get environment; bool get enableOfflineTracking; int get offlineTimeout;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -223,7 +222,6 @@ class _SettingsState extends SettingsState {
 @override final  CustomProtocol? customProtocol;
 @override final  String trackDomain;
 @override final  String container;
-//@Default(false) bool enableDebugging,
 @override final  String? version;
 @override final  String? debugCode;
 @override final  int? sessionTimeoutInSeconds;

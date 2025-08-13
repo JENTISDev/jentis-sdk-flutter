@@ -45,7 +45,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "eCommerceInitiators": MessageLookupByLibrary.simpleMessage(
       "E-commerce Initiators",
     ),
-    "enableDebugging": MessageLookupByLibrary.simpleMessage("Enable Debugging"),
     "enterCustomInitiator": MessageLookupByLibrary.simpleMessage(
       "Enter custom initiator",
     ),
