@@ -20,3 +20,7 @@ The included example app demonstrates how to use the Jentis Flutter plugin in pr
 - **Debug Screen**: View the requests made by the native SDK. This screen displays a log of tracking requests, making it easier to debug and verify integration.
 
 Explore the example app to see best practices for integrating and using the Jentis Flutter plugin in your own project.
+
+## Configuration
+
+In `/lib/constants.dart` you can find the projects default configuration.

@@ -16,7 +16,7 @@ For a more advanced setup you can take a look at this example project.
 
 ## Installation
 
-Flutter version: 3.32.8
+Flutter version: *3.32.8*
 
 Add `jentis_flutter` to your `pubspec.yaml`:
 
@@ -29,7 +29,7 @@ Run `flutter pub get` to install the package.
 
 ### Add repository to your project
 
-/android/build.gradle.kts
+`/android/build.gradle.kts`
 
 ```kotlin
 allprojects {
@@ -53,7 +53,7 @@ allprojects {
 
 If you need to support cleartext traffic you have to allow it first.
 
-/ios/Runner/Info.plist
+`/ios/Runner/Info.plist`
 
 ```plist
 <key>NSAppTransportSecurity</key>
@@ -63,7 +63,7 @@ If you need to support cleartext traffic you have to allow it first.
 </dict>
 ```
 
-/android/app/src/main/AndroidManifest.xml
+`/android/app/src/main/AndroidManifest.xml`
 
 ```xml
 <application
@@ -174,7 +174,16 @@ Settings are applied immediately and persisted for later use.
 
 ## Tracking in WebViews
 
-Tracking in WebViews is not yet implemented.
+Tracking in WebViews is supported via a JavaScript bridge. Events pushed to the Jentis data layer (`window._jts`) in the WebView are automatically sent to the Flutter side and tracked using the Jentis SDK.
+
+**How it works:**
+
+- The WebView injects JavaScript that overrides the `push` method of `window._jts`.
+- When an event is pushed, the overridden method sends the event data to Flutter using a JavaScript channel.
+- The Dart side receives the event, converts it to a `JentisEventData`, and pushes it to the SDK.
+- If the event contains `track: 'submit'`, `track: 'event'`, or the second argument to `push` is `true`, a submit is triggered and all grouped events are sent. These triggers can be adjusted to meet your needs.
+
+See the advanced example for a full implementation and details on how to customize the integration.
 
 ---
 

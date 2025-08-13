@@ -5,6 +5,8 @@ import 'package:jentis_flutter/jentis_flutter.dart';
 import 'models/consent.dart';
 import 'models/settings_state.dart';
 
+// Default consents
+// They will be overridden after app start
 const testConsents = [
   Consent(vendorId: 'google_analytics_4_server-side'),
   Consent(vendorId: 'facebook'),
