@@ -127,17 +127,19 @@ class _WebViewScreenState extends ConsumerState<WebViewScreen> {
 
         if (kDebugMode) {
           print('Push event from JS: ${jsonEncode(jentisEventData)}');
-          await ref.read(jentisProvider).valueOrNull?.push([jentisEventData]);
         }
+
+        await ref.read(jentisProvider).valueOrNull?.push([jentisEventData]);
       }
     }
 
-    final submit = message['submit'];
-    if (submit) {
+    final shouldSubmit = message['shouldSubmit'];
+    if (shouldSubmit) {
       if (kDebugMode) {
         print('Submit from JS');
-        await ref.read(jentisProvider).valueOrNull?.submit();
       }
+
+      await ref.read(jentisProvider).valueOrNull?.submit();
     }
   }
 

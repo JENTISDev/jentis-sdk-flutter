@@ -36,7 +36,7 @@ if (window._jts && window._jts.length > 0) {
             // Send the batch (including the submit-triggering event)
             const response = JSON.stringify({
                 events: JSON.stringify(batch),
-                submit: true,
+                shouldSubmit: true,
             });
 
             console.log('Sending initial JTS batch to Flutter: ', response);
@@ -45,11 +45,11 @@ if (window._jts && window._jts.length > 0) {
             batch = [];
         }
     }
-    // Send any remaining events as a final batch (submit: false)
+    // Send any remaining events as a final batch (shouldSubmit: false)
     if (batch.length > 0) {
         const response = JSON.stringify({
             events: JSON.stringify(batch),
-            submit: false,
+            shouldSubmit: false,
         });
         
         console.log('Sending initial JTS batch to Flutter: ', response);
@@ -65,7 +65,7 @@ window._jts.push = function(...args) {
 
     const response = JSON.stringify({
         events: JSON.stringify(args),
-        submit: submit,
+        shouldSubmit: submit,
     });
 
     console.log('Sending JTS events to Flutter: ', response);
