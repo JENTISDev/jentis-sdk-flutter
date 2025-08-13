@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                         ),
                       ]);
 
-                      // Submit event with custom initiator if provided
+                      // Submit event with optional custom initiator
                       await jentis.submit('customInitiator');
 
                       if (context.mounted) {
