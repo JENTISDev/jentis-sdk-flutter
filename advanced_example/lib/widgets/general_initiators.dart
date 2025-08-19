@@ -28,17 +28,6 @@ class GeneralInitiators extends ConsumerWidget {
           onPressed: () async {
             final jentis = ref.read(jentisProvider);
 
-            // Include enrichment data in the event
-            if (includeEnrichmentData) {
-              await jentis.valueOrNull?.addEnrichment(
-                JentisEnrichment(
-                  pluginId: 'productEnrichmentService',
-                  arguments: {'productId': 'product_id'},
-                  variables: ['enrich_product_name', 'enrich_product_brutto'],
-                ),
-              );
-            }
-
             // Push page view event
             await jentis.valueOrNull?.push([
               JentisEventData(
@@ -49,6 +38,17 @@ class GeneralInitiators extends ConsumerWidget {
                 },
               ),
             ]);
+
+            // Include enrichment data in the event
+            if (includeEnrichmentData) {
+              await jentis.valueOrNull?.addEnrichment(
+                JentisEnrichment(
+                  pluginId: 'productEnrichmentService',
+                  arguments: {'page_title': 'pagetitle'},
+                  variables: ['enrich_product_name', 'enrich_product_brutto'],
+                ),
+              );
+            }
 
             // Submit event with custom initiator if provided
             if (customInitiator != null) {
@@ -75,17 +75,6 @@ class GeneralInitiators extends ConsumerWidget {
           onPressed: () async {
             final jentis = ref.read(jentisProvider);
 
-            // Include enrichment data in the event
-            if (includeEnrichmentData) {
-              await jentis.valueOrNull?.addEnrichment(
-                JentisEnrichment(
-                  pluginId: 'productEnrichmentService',
-                  arguments: {'productId': 'product_id'},
-                  variables: ['enrich_product_name', 'enrich_product_brutto'],
-                ),
-              );
-            }
-
             // Push multiple events for product view action
             await jentis.valueOrNull?.push([
               JentisEventData(
@@ -105,6 +94,20 @@ class GeneralInitiators extends ConsumerWidget {
               ),
               JentisEventData(stringAttributes: {'track': 'productview'}),
             ]);
+
+            // Include enrichment data in the event
+            if (includeEnrichmentData) {
+              await jentis.valueOrNull?.addEnrichment(
+                JentisEnrichment(
+                  pluginId: 'productEnrichmentService',
+                  arguments: {
+                    'productId': 'product_id',
+                    'page_title': 'pagetitle',
+                  },
+                  variables: ['enrich_product_name', 'enrich_product_brutto'],
+                ),
+              );
+            }
 
             // Submit event with custom initiator if provided
             if (customInitiator != null) {

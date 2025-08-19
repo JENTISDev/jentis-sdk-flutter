@@ -82,7 +82,7 @@ abstract class JentisApi {
   void setConsents(Map<String, ConsentValue> consents);
   void push(List<JentisEvent> events);
   @async
-  void submit([String customInitiator = 'JENTIS Datalayer SENT']);
+  void submit([String customInitiator = 'jts_push_submit']);
   void addEnrichment(Enrichment enrichment);
   void addCustomEnrichment(Enrichment enrichment);
 }

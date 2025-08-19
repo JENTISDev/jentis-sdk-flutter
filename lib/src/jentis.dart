@@ -95,7 +95,7 @@ class Jentis {
 
   /// Submits all pushed events as a group, applying default properties and
   /// logic. After submission, the DataLayer is reset.
-  Future<void> submit([String customInitiator = 'JENTIS Datalayer SENT']) {
+  Future<void> submit([String customInitiator = 'jts_push_submit']) {
     return _jentisApi.submit(customInitiator);
   }
 

@@ -40,7 +40,7 @@ class MockJentisApi implements JentisApi {
   }
 
   @override
-  Future<void> submit([String customInitiator = 'JENTIS Datalayer SENT']) {
+  Future<void> submit([String customInitiator = 'jts_push_submit']) {
     return Future.value();
   }
 
@@ -107,9 +107,21 @@ void main() {
     });
 
     test('addEnrichment should complete without errors', () async {
+      final events = [
+        JentisEventData(
+          stringAttributes: {
+            'track': 'pageview',
+            'pagetitle': 'Demo-APP Pagetitle',
+            'url': 'https://www.demoapp.com',
+          },
+        ),
+      ];
+
+      await jentis.push(events);
+
       final enrichment = JentisEnrichment(
         pluginId: 'productEnrichmentService',
-        arguments: {'productId': 'product_id'},
+        arguments: {'productId': 'product_id', 'page_title': 'pagetitle'},
         variables: ['enrich_product_name', 'enrich_product_brutto'],
       );
 
@@ -117,9 +129,21 @@ void main() {
     });
 
     test('addCustomEnrichment should complete without errors', () async {
+      final events = [
+        JentisEventData(
+          stringAttributes: {
+            'track': 'pageview',
+            'pagetitle': 'Demo-APP Pagetitle',
+            'url': 'https://www.demoapp.com',
+          },
+        ),
+      ];
+
+      await jentis.push(events);
+
       final enrichment = JentisEnrichment(
         pluginId: 'productEnrichmentService',
-        arguments: {'productId': 'product_id'},
+        arguments: {'productId': '1234', 'page_title': 'Demo-APP Pagetitle'},
         variables: ['enrich_product_name', 'enrich_product_brutto'],
       );
 

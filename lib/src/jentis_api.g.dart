@@ -15,36 +15,30 @@ PlatformException _createConnectionError(String channelName) {
     message: 'Unable to establish connection on channel: "$channelName".',
   );
 }
+
 bool _deepEquals(Object? a, Object? b) {
   if (a is List && b is List) {
     return a.length == b.length &&
-        a.indexed
-        .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+        a.indexed.every(
+          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
+        );
   }
   if (a is Map && b is Map) {
-    return a.length == b.length && a.entries.every((MapEntry<Object?, Object?> entry) =>
-        (b as Map<Object?, Object?>).containsKey(entry.key) &&
-        _deepEquals(entry.value, b[entry.key]));
+    return a.length == b.length &&
+        a.entries.every(
+          (MapEntry<Object?, Object?> entry) =>
+              (b as Map<Object?, Object?>).containsKey(entry.key) &&
+              _deepEquals(entry.value, b[entry.key]),
+        );
   }
   return a == b;
 }
 
+enum Environment { live, stage }
 
-enum Environment {
-  live,
-  stage,
-}
+enum Protocol { http, https }
 
-enum Protocol {
-  http,
-  https,
-}
-
-enum ConsentValue {
-  allow,
-  deny,
-  ncm,
-}
+enum ConsentValue { allow, deny, ncm }
 
 class TrackConfig {
   TrackConfig({
@@ -96,7 +90,8 @@ class TrackConfig {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static TrackConfig decode(Object result) {
     result as List<Object?>;
@@ -128,8 +123,7 @@ class TrackConfig {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class JentisEvent {
@@ -158,15 +152,19 @@ class JentisEvent {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static JentisEvent decode(Object result) {
     result as List<Object?>;
     return JentisEvent(
-      boolAttributes: (result[0] as Map<Object?, Object?>?)?.cast<String, bool>(),
-      stringAttributes: (result[1] as Map<Object?, Object?>?)?.cast<String, String>(),
+      boolAttributes:
+          (result[0] as Map<Object?, Object?>?)?.cast<String, bool>(),
+      stringAttributes:
+          (result[1] as Map<Object?, Object?>?)?.cast<String, String>(),
       intAttributes: (result[2] as Map<Object?, Object?>?)?.cast<String, int>(),
-      doubleAttributes: (result[3] as Map<Object?, Object?>?)?.cast<String, double>(),
+      doubleAttributes:
+          (result[3] as Map<Object?, Object?>?)?.cast<String, double>(),
     );
   }
 
@@ -184,16 +182,11 @@ class JentisEvent {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class Enrichment {
-  Enrichment({
-    required this.pluginId,
-    this.arguments,
-    this.variables,
-  });
+  Enrichment({required this.pluginId, this.arguments, this.variables});
 
   String pluginId;
 
@@ -202,15 +195,12 @@ class Enrichment {
   List<String>? variables;
 
   List<Object?> _toList() {
-    return <Object?>[
-      pluginId,
-      arguments,
-      variables,
-    ];
+    return <Object?>[pluginId, arguments, variables];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static Enrichment decode(Object result) {
     result as List<Object?>;
@@ -235,10 +225,8 @@ class Enrichment {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
-
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -247,22 +235,22 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is Environment) {
+    } else if (value is Environment) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is Protocol) {
+    } else if (value is Protocol) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is ConsentValue) {
+    } else if (value is ConsentValue) {
       buffer.putUint8(131);
       writeValue(buffer, value.index);
-    }    else if (value is TrackConfig) {
+    } else if (value is TrackConfig) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    }    else if (value is JentisEvent) {
+    } else if (value is JentisEvent) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    }    else if (value is Enrichment) {
+    } else if (value is Enrichment) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else {
@@ -273,20 +261,20 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 129: 
+      case 129:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : Environment.values[value];
-      case 130: 
+      case 130:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : Protocol.values[value];
-      case 131: 
+      case 131:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : ConsentValue.values[value];
-      case 132: 
+      case 132:
         return TrackConfig.decode(readValue(buffer)!);
-      case 133: 
+      case 133:
         return JentisEvent.decode(readValue(buffer)!);
-      case 134: 
+      case 134:
         return Enrichment.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -298,9 +286,12 @@ class JentisApi {
   /// Constructor for [JentisApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  JentisApi({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
-      : pigeonVar_binaryMessenger = binaryMessenger,
-        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  JentisApi({
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) : pigeonVar_binaryMessenger = binaryMessenger,
+       pigeonVar_messageChannelSuffix =
+           messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
 
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
@@ -308,13 +299,17 @@ class JentisApi {
   final String pigeonVar_messageChannelSuffix;
 
   Future<void> initialize(TrackConfig config) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.initialize$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.initialize$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[config],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[config]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -331,13 +326,17 @@ class JentisApi {
   }
 
   Future<void> restartConfig(TrackConfig config) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.restartConfig$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.restartConfig$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[config],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[config]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -354,13 +353,17 @@ class JentisApi {
   }
 
   Future<void> setConsents(Map<String, ConsentValue> consents) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.setConsents$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.setConsents$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[consents],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[consents]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -377,13 +380,17 @@ class JentisApi {
   }
 
   Future<void> push(List<JentisEvent> events) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.push$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.push$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[events],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[events]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -399,14 +406,18 @@ class JentisApi {
     }
   }
 
-  Future<void> submit([String customInitiator = 'JENTIS Datalayer SENT']) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.submit$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+  Future<void> submit([String customInitiator = 'jts_push_submit']) async {
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.submit$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[customInitiator],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[customInitiator]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -423,13 +434,17 @@ class JentisApi {
   }
 
   Future<void> addEnrichment(Enrichment enrichment) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.addEnrichment$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.addEnrichment$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[enrichment],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enrichment]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -446,13 +461,17 @@ class JentisApi {
   }
 
   Future<void> addCustomEnrichment(Enrichment enrichment) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.jentis_flutter.JentisApi.addCustomEnrichment$pigeonVar_messageChannelSuffix';
-    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-      pigeonVar_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: pigeonVar_binaryMessenger,
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.jentis_flutter.JentisApi.addCustomEnrichment$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel =
+        BasicMessageChannel<Object?>(
+          pigeonVar_channelName,
+          pigeonChannelCodec,
+          binaryMessenger: pigeonVar_binaryMessenger,
+        );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[enrichment],
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enrichment]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {

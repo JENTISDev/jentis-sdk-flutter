@@ -45,52 +45,58 @@
 <section class="desc markdown">
   <h1 id="jentis-flutter-plugin">Jentis Flutter plugin</h1>
 <p>A Flutter plugin for the Jentis SDK.</p>
-<h2 id="example-app-riverpod--freezed">Example App: Riverpod &amp; Freezed</h2>
-<p>The example app uses <a href="https://riverpod.dev/">Riverpod</a> for state management and <a href="https://pub.dev/packages/freezed">Freezed</a> for immutable data classes and union types. <strong>Riverpod is optional</strong> — you can use any state management solution you prefer. These plugins were selected because:</p>
-<ul>
-<li><strong>Riverpod</strong> provides a robust, testable, and scalable way to manage app state, making it easy to share configuration and SDK state across widgets.</li>
-<li><strong>Freezed</strong> simplifies the creation of immutable models and sealed classes, which helps with managing complex data structures like consent states and settings.</li>
-</ul>
-<p>You do not need to use Riverpod or Freezed to integrate the Jentis Flutter plugin; they are used in the example for demonstration and maintainability purposes.</p>
-<p>The included example app demonstrates how to use the Jentis Flutter plugin in practice. It features several screens to help you understand and test the SDK:</p>
-<ul>
-<li>
-<p><strong>Settings Screen</strong>: Configure all options used to initialize the SDK, such as domain, container, environment, and more. This allows you to experiment with different configurations and see their effects immediately.</p>
-</li>
-<li>
-<p><strong>Consents Section</strong>: Change consents for different providers (e.g., GA4, Facebook, AdWords) using a simple UI. This section lets you manage privacy settings and see how consent changes are applied and persisted.</p>
-</li>
-<li>
-<p><strong>Tracking Examples Screen</strong>: Test various tracking events, including PageView, ProductView, AddToCart, and Order events. This screen provides buttons and forms to trigger different event types and see how they are sent to the SDK.</p>
-</li>
-<li>
-<p><strong>Debug Screen</strong>: View the requests made by the native SDK. This screen displays a log of tracking requests, making it easier to debug and verify integration.</p>
-</li>
-</ul>
-<p>Explore the example app to see best practices for integrating and using the Jentis Flutter plugin in your own project.</p>
 <hr>
 <h2 id="installation">Installation</h2>
+<p>Flutter version: <em>3.32.8</em></p>
 <p>Add <code>jentis_flutter</code> to your <code>pubspec.yaml</code>:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
-  jentis_flutter: &lt;latest_version&gt;
+  jentis_flutter: 1.0.2
 </code></pre>
 <p>Run <code>flutter pub get</code> to install the package.</p>
+<h3 id="add-repository-to-your-project">Add repository to your project</h3>
+<p><code>/android/build.gradle.kts</code></p>
+<pre class="language-kotlin"><code class="language-kotlin">allprojects {
+    repositories {
+        ...
+        maven {
+            url = uri("https://jitpack.io")
+            credentials { username = "jp_gcs6hkvne2f97jdnosqm6mgnm3" }
+        }
+    }
+}
+</code></pre>
+<h3 id="enable-swift-package-manager-for-ios">Enable Swift Package Manager for iOS</h3>
+<pre class="language-sh"><code class="language-sh">flutter config --enable-swift-package-manager
+</code></pre>
+<h3 id="support-for-cleartext-traffic">Support for cleartext traffic</h3>
+<p>If you need to support cleartext traffic you have to allow it first.</p>
+<p><code>/ios/Runner/Info.plist</code></p>
+<pre class="language-plist"><code class="language-plist">&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+  &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+  &lt;string&gt;YES&lt;/string&gt;
+&lt;/dict&gt;
+</code></pre>
+<p><code>/android/app/src/main/AndroidManifest.xml</code></p>
+<pre class="language-xml"><code class="language-xml">&lt;application
+        ...
+        android:usesCleartextTraffic="true"&gt;
+</code></pre>
 <hr>
 <h2 id="initialization">Initialization</h2>
-<p>Initialize the plugin at application startup to create a new session. Place the initialization in your app's startup logic (e.g., in <code>initState</code> or before your main widget runs):</p>
-<pre class="language-dart"><code class="language-dart">final settings = ...; // Your configuration
-ref.read(jentisProvider).initialize(
+<p>Initialize the plugin at application startup to create a new session:</p>
+<pre class="language-dart"><code class="language-dart">final jentis = Jentis();
+await jentis.initialize(
   TrackConfigData(
-    trackDomain: settings.trackDomain,
-    container: settings.container,
-    environment: settings.environment,
-    version: settings.version,
-    debugCode: settings.debugCode,
-    authorizationToken: settings.authorizationToken,
-    sessionTimeoutInSeconds: settings.sessionTimeoutInSeconds,
-    customProtocol: settings.customProtocol,
-    enableOfflineTracking: settings.enableOfflineTracking,
-    offlineTimeout: settings.offlineTimeout,
+    customProtocol: CustomProtocol.https,
+    // cSpell:ignore kndmjh
+    trackDomain: 'kndmjh.nuuk.jtm-demo.com',
+    container: 'nuuk',
+    version: '1',
+    debugCode: '6fce27c5-6121-4974-b7be-9018abde551d',
+    authorizationToken: '1234',
+    environment: JentisEnvironment.live,
+    offlineTimeout: 3600,
   ),
 );
 </code></pre>
@@ -110,75 +116,87 @@ ref.read(jentisProvider).initialize(
 <p>More information: <a href="https://docs.jentis.com/documentation/tracking-data-from-the-app-sdk-to-jentis-how-it-wo#AppTracking:GettingStarted-InitializetheJENTISAppSDK">Jentis SDK Initialization</a></p>
 <hr>
 <h2 id="sending-tracking-events">Sending Tracking Events</h2>
-<p>You can send tracking events using the <code>jentisProvider</code>.</p>
 <p><strong>Why are multiple events sent together?</strong></p>
 <p>When you call <code>submit()</code>, all events that have been pushed are logically grouped together in the DataLayer. The SDK automatically adds default properties and applies additional logic as described in the <a href="https://docs.jentis.com/documentation/jentis-app-tracking-how-to-use-app-sdk-data-in-jen#AppTracking:UsingyourappdataintheJENTISPlatform-JENTISSDKdefaultproperties">Jentis documentation</a>. After submission, the DataLayer is reset. This means that events sent together with <code>submit()</code> are processed as a group, not as independent events.</p>
 <p>This grouping ensures that related tracking information (such as product details and action types) is sent together, allowing the Jentis platform to correctly interpret and enrich the data.</p>
 <p>Example:</p>
-<pre class="language-dart"><code class="language-dart">final jentis = ref.read(jentisProvider);
-
-// Optionally add enrichment data
-if (includeEnrichmentData) {
-  jentis.addEnrichment(
-    JentisEnrichment(
-      pluginId: 'productEnrichmentService',
-      arguments: {'productId': 'product_id'},
-      variables: ['enrich_product_name', 'enrich_product_brutto'],
-    ),
-  );
-}
-
-// Push events (e.g., product view)
-jentis.push([
-  JentisEventData(
-    stringAttributes: {
-      'track': 'pageview',
-      'pagetitle': 'Demo-APP Productview',
-    },
-  ),
+<pre class="language-dart"><code class="language-dart">// Push multiple events for add to cart action
+await jentis.push([
   JentisEventData(
     stringAttributes: {
       'track': 'product',
-      'type': 'productview',
+      'type': 'addtocart',
       'id': '123',
       'name': 'Testproduct',
     },
     doubleAttributes: {'brutto': 199.99},
   ),
-  JentisEventData(stringAttributes: {'track': 'productview'}),
+  JentisEventData(
+    stringAttributes: {'track': 'addtocart'},
+  ),
 ]);
 
-// Submit event with custom initiator if provided
-if (customInitiator != null) {
-  jentis.submit(customInitiator!);
-} else {
-  jentis.submit();
-}
+// Include enrichment data in the event
+await jentis.addEnrichment(
+  JentisEnrichment(
+    pluginId: 'productEnrichmentService',
+    arguments: {'productId': 'product_id'},
+    variables: [
+      'enrich_product_name',
+      'enrich_product_brutto',
+    ],
+  ),
+);
+
+// Submit event with optional custom initiator
+await jentis.submit('customInitiator');
 </code></pre>
-<p>See the example app for more details.</p>
+<p>See the example apps for more details.</p>
 <hr>
 <h2 id="managing-privacy-settings">Managing Privacy Settings</h2>
 <p>You can change the PrivacySettings of the currently active session:</p>
-<pre class="language-dart"><code class="language-dart">ref.read(consentProvider.notifier).updateConsent(
-  consent.copyWith(value: value ?? JentisConsentValue.deny),
-);
+<pre class="language-dart"><code class="language-dart">jentis.setConsents({
+  'facebook': JentisConsentValue.allow,
+});
 </code></pre>
 <p>Settings are applied immediately and persisted for later use.</p>
 <hr>
 <h2 id="tracking-in-webviews">Tracking in WebViews</h2>
-<p>Tracking in WebViews is not yet implemented.</p>
+<p>Tracking in WebViews is supported via a JavaScript bridge. Events pushed to the Jentis data layer (<code>window._jts</code>) in the WebView are automatically sent to the Flutter side and tracked using the Jentis SDK.</p>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>The WebView injects JavaScript that overrides the <code>push</code> method of <code>window._jts</code>.</li>
+<li>When an event is pushed, the overridden method sends the event data to Flutter using a JavaScript channel.</li>
+<li>The Dart side receives the event, converts it to a <code>JentisEventData</code>, and pushes it to the SDK.</li>
+<li>If the event contains <code>track: 'submit'</code>, <code>track: 'event'</code>, or the second argument to <code>push</code> is <code>true</code>, a submit is triggered and all grouped events are sent. These triggers can be adjusted to meet your needs.</li>
+</ul>
+<p>See the advanced example for a full implementation and details on how to customize the integration.</p>
 <hr>
+<h2 id="example-apps">Example apps</h2>
+<h3 id="basic-example">Basic example</h3>
+<p>This basic example is easy to understand and does not use any optional dependencies.</p>
+<h3 id="advanced-example">Advanced example</h3>
+<p>For a more advanced setup you can take a look at this example project.</p>
+<h2 id="testing">Testing</h2>
+<p>To test your app with the Jentis backend:</p>
+<ol>
+<li>Go to <strong>Publish &gt; Preview</strong> in the Jentis backend.</li>
+<li>You will see a URL containing the parameters <code>jts_preview</code> and <code>jts_debug</code>.</li>
+<li>Copy the values of these parameters from the URL:
+<ul>
+<li>Use the value of <code>jts_preview</code> for the <code>version</code> attribute in your SDK configuration.</li>
+<li>Use the value of <code>jts_debug</code> for the <code>debugCode</code> attribute in your SDK configuration.</li>
+</ul>
+</li>
+<li>Start your app and begin sending events.</li>
+<li>In the Jentis backend, make sure to enable <strong>Logs</strong> in the filter to see incoming data</li>
+</ol>
 <h2 id="plugin-development">Plugin Development</h2>
 <p>To contribute or extend the plugin:</p>
 <ul>
 <li>
-<p>Enable Swift Package Manager for iOS:</p>
-<pre class="language-sh"><code class="language-sh">flutter config --enable-swift-package-manager
-</code></pre>
-</li>
-<li>
 <p>Code generation:</p>
-<pre class="language-sh"><code class="language-sh">flutter pub run build_runner build --delete-conflicting-outputs
+<pre class="language-sh"><code class="language-sh">dart run build_runner build --delete-conflicting-outputs
 </code></pre>
 </li>
 <li>
@@ -228,7 +246,7 @@ if (customInitiator != null) {
 <footer>
   <span class="no-break">
     jentis_flutter
-      0.0.1
+      1.0.2
   </span>
   
 </footer>

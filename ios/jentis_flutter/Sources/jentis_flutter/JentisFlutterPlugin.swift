@@ -158,8 +158,20 @@ public class JentisFlutterPlugin: NSObject, FlutterPlugin, JentisApi,
   func addEnrichment(enrichment: Enrichment) throws {
     try TrackingService.shared.addEnrichment(
       pluginId: enrichment.pluginId,
-      arguments: (enrichment.arguments ?? [:]).compactMapValues {
-        $0 as? CodableValue
+      arguments: (enrichment.arguments ?? [:]).compactMapValues { value in
+          if let v = value as? String {
+              return CodableValue.string(v)
+          } else if let v = value as? Int {
+              return CodableValue.integer(v)
+          } else if let v = value as? Double {
+              return CodableValue.decimalNumber(v)
+          } else if let v = value as? Bool {
+              return CodableValue.bool(v)
+          } else if let v = value as? [CodableValue] {
+              return CodableValue.array(v)
+          } else {
+              return nil
+          }
       },
       variables: enrichment.variables ?? []
     )
@@ -168,8 +180,20 @@ public class JentisFlutterPlugin: NSObject, FlutterPlugin, JentisApi,
   func addCustomEnrichment(enrichment: Enrichment) throws {
     try TrackingService.shared.addCustomEnrichment(
       pluginId: enrichment.pluginId,
-      arguments: (enrichment.arguments ?? [:]).compactMapValues {
-        $0 as? CodableValue
+      arguments: (enrichment.arguments ?? [:]).compactMapValues { value in
+          if let v = value as? String {
+              return CodableValue.string(v)
+          } else if let v = value as? Int {
+              return CodableValue.integer(v)
+          } else if let v = value as? Double {
+              return CodableValue.decimalNumber(v)
+          } else if let v = value as? Bool {
+              return CodableValue.bool(v)
+          } else if let v = value as? [CodableValue] {
+              return CodableValue.array(v)
+          } else {
+              return nil
+          }
       },
       variables: enrichment.variables ?? []
     )

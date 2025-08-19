@@ -12,7 +12,7 @@ Add `jentis_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  jentis_flutter: 1.0.0
+  jentis_flutter: 1.0.2
 ```
 
 Run `flutter pub get` to install the package.
@@ -112,18 +112,6 @@ This grouping ensures that related tracking information (such as product details
 Example:
 
 ```dart
-// Include enrichment data in the event
-await jentis.addEnrichment(
-  JentisEnrichment(
-    pluginId: 'productEnrichmentService',
-    arguments: {'productId': 'product_id'},
-    variables: [
-      'enrich_product_name',
-      'enrich_product_brutto',
-    ],
-  ),
-);
-
 // Push multiple events for add to cart action
 await jentis.push([
   JentisEventData(
@@ -139,6 +127,18 @@ await jentis.push([
     stringAttributes: {'track': 'addtocart'},
   ),
 ]);
+
+// Include enrichment data in the event
+await jentis.addEnrichment(
+  JentisEnrichment(
+    pluginId: 'productEnrichmentService',
+    arguments: {'productId': 'product_id'},
+    variables: [
+      'enrich_product_name',
+      'enrich_product_brutto',
+    ],
+  ),
+);
 
 // Submit event with optional custom initiator
 await jentis.submit('customInitiator');
