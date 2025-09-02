@@ -71,15 +71,17 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; setConsents(Map&lt;String, JentisConsentValue&gt; consents) {
-  return _jentisApi.setConsents(
-    consents.map(
-      (key, value) =&gt; MapEntry(key, switch (value) {
-        JentisConsentValue.allow =&gt; ConsentValue.allow,
-        JentisConsentValue.deny =&gt; ConsentValue.deny,
-        JentisConsentValue.ncm =&gt; ConsentValue.ncm,
-      }),
-    ),
-  );
+  return _enqueueTask(() {
+    return _jentisApi.setConsents(
+      consents.map(
+        (key, value) =&gt; MapEntry(key, switch (value) {
+          JentisConsentValue.allow =&gt; ConsentValue.allow,
+          JentisConsentValue.deny =&gt; ConsentValue.deny,
+          JentisConsentValue.ncm =&gt; ConsentValue.ncm,
+        }),
+      ),
+    );
+  });
 }</code></pre>
 </section>
 
@@ -108,7 +110,7 @@
 <footer>
   <span class="no-break">
     jentis_flutter
-      1.0.2
+      1.0.3
   </span>
   
 </footer>

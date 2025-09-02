@@ -72,18 +72,20 @@ Use this to reinitialize tracking with updated options during runtime.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; restartConfig(TrackConfigData config) {
-  return _jentisApi.restartConfig(
-    TrackConfig(
-      trackDomain: config.trackDomain,
-      container: config.container,
-      environment: switch (config.environment) {
-        JentisEnvironment.live =&gt; Environment.live,
-        JentisEnvironment.stage =&gt; Environment.stage,
-      },
-      authorizationToken: config.authorizationToken,
-      offlineTimeout: config.offlineTimeout,
-    ),
-  );
+  return _enqueueTask(() {
+    return _jentisApi.restartConfig(
+      TrackConfig(
+        trackDomain: config.trackDomain,
+        container: config.container,
+        environment: switch (config.environment) {
+          JentisEnvironment.live =&gt; Environment.live,
+          JentisEnvironment.stage =&gt; Environment.stage,
+        },
+        authorizationToken: config.authorizationToken,
+        offlineTimeout: config.offlineTimeout,
+      ),
+    );
+  });
 }</code></pre>
 </section>
 
@@ -112,7 +114,7 @@ Use this to reinitialize tracking with updated options during runtime.</p>
 <footer>
   <span class="no-break">
     jentis_flutter
-      1.0.2
+      1.0.3
   </span>
   
 </footer>

@@ -71,8 +71,8 @@ new tracking session.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; initialize(TrackConfigData config) {
-  return _jentisApi.initialize(
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; initialize(TrackConfigData config) async {
+  await _jentisApi.initialize(
     TrackConfig(
       trackDomain: config.trackDomain,
       container: config.container,
@@ -93,6 +93,11 @@ new tracking session.</p>
       offlineTimeout: config.offlineTimeout,
     ),
   );
+
+  &#47;&#47; Unblock queued calls after successful initialization.
+  if (!_initCompleter.isCompleted) {
+    _initCompleter.complete();
+  }
 }</code></pre>
 </section>
 
@@ -121,7 +126,7 @@ new tracking session.</p>
 <footer>
   <span class="no-break">
     jentis_flutter
-      1.0.2
+      1.0.3
   </span>
   
 </footer>

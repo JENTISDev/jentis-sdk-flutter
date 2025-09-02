@@ -71,13 +71,15 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; addCustomEnrichment(JentisEnrichment enrichment) {
-  return _jentisApi.addCustomEnrichment(
-    Enrichment(
-      pluginId: enrichment.pluginId,
-      arguments: enrichment.arguments,
-      variables: enrichment.variables,
-    ),
-  );
+  return _enqueueTask(() {
+    return _jentisApi.addCustomEnrichment(
+      Enrichment(
+        pluginId: enrichment.pluginId,
+        arguments: enrichment.arguments,
+        variables: enrichment.variables,
+      ),
+    );
+  });
 }</code></pre>
 </section>
 
@@ -106,7 +108,7 @@
 <footer>
   <span class="no-break">
     jentis_flutter
-      1.0.2
+      1.0.3
   </span>
   
 </footer>

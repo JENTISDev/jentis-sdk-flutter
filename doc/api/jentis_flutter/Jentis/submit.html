@@ -72,7 +72,9 @@ logic. After submission, the DataLayer is reset.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; submit([String customInitiator = &#39;jts_push_submit&#39;]) {
-  return _jentisApi.submit(customInitiator);
+  return _enqueueTask(() {
+    return _jentisApi.submit(customInitiator);
+  });
 }</code></pre>
 </section>
 
@@ -101,7 +103,7 @@ logic. After submission, the DataLayer is reset.</p>
 <footer>
   <span class="no-break">
     jentis_flutter
-      1.0.2
+      1.0.3
   </span>
   
 </footer>

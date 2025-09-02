@@ -12,7 +12,7 @@ Add `jentis_flutter` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  jentis_flutter: 1.0.2
+  jentis_flutter: 1.0.3
 ```
 
 Run `flutter pub get` to install the package.
