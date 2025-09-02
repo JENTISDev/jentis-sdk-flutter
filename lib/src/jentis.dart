@@ -23,6 +23,8 @@ class Jentis {
   @visibleForTesting
   Jentis.createWith(this._jentisApi);
 
+  bool get isInitialized => _initCompleter.isCompleted;
+
   // Queue to await initialization before executing tasks.
   final Queue<Future<void> Function()> _taskQueue =
       Queue<Future<void> Function()>();
@@ -75,6 +77,10 @@ class Jentis {
   /// Initializes the Jentis SDK with the provided configuration and creates a
   /// new tracking session.
   Future<void> initialize(TrackConfigData config) async {
+    if (isInitialized) {
+      return;
+    }
+
     await _jentisApi.initialize(
       TrackConfig(
         trackDomain: config.trackDomain,
