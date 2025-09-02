@@ -1,6 +1,6 @@
 name: jentis_flutter
-description: "A new Flutter project."
-version: 1.0.2
+description: "Flutter plugin for Jentis SDK"
+version: 1.0.3
 homepage:
 
 environment:
